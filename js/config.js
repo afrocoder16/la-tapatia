@@ -1,7 +1,8 @@
 /* =========================================================
    config.js - Sample Two handoff settings
    Edit business info, social links, phone number, and demo location here.
-   This sample is browse-only and uses phone/email links instead of checkout.
+   This sample has a front-end cart. Square checkout can replace the
+   orderRequest settings once POS API credentials are ready.
    ========================================================= */
 
 window.LT_CONFIG = {
@@ -22,6 +23,10 @@ window.LT_CONFIG = {
   ],
 
   callToOrderPhone: { label: "507.706.3827", tel: "+15077063827" },
+  orderRequest: {
+    email: "info@latapatiafoodtruck.com",
+    subject: "New online order request - La Tapatia Food Truck",
+  },
 
   liveLocation: {
     demo: {

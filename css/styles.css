@@ -3,7 +3,7 @@
    Structure replicated from the client reference ("Just Grill It"
    BBQ template) — reskinned in La Tapatia's brand colors.
    ONE continuous light-purple -> pink faded background site-wide
-   (no alternating bands). Browse-only: no cart / checkout / canvas.
+   (no alternating bands). Includes a static front-end cart.
    ========================================================= */
 
 :root {
@@ -45,12 +45,12 @@
   --font-body:    "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --maxw:  1180px;
-  --nav-h: 0px;
+  --topbar-h: 154px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 18px); }
 
 body {
   margin: 0;
@@ -106,9 +106,18 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.04; margin: 0;
 /* ============================================================
    HERO  (centered logo + nav, big left title, right truck)
    ============================================================ */
-.hero { position: relative; padding-bottom: clamp(2rem, 6vw, 5rem); overflow: hidden; }
+.hero { position: relative; padding-top: var(--topbar-h); padding-bottom: clamp(2rem, 6vw, 5rem); overflow: hidden; }
 
-.topbar { display: flex; flex-direction: column; align-items: center; padding: 1.4rem 1.25rem 0.5rem; position: relative; }
+.topbar {
+  position: fixed; inset: 0 0 auto; z-index: 320;
+  display: flex; flex-direction: column; align-items: center;
+  min-height: var(--topbar-h); padding: 1.4rem 1.25rem 0.75rem;
+  background: var(--bg-fade);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 14px 28px rgba(40, 6, 36, 0.18);
+  transition: box-shadow 0.2s ease, padding 0.2s ease;
+}
+body.is-scrolled .topbar { box-shadow: 0 16px 38px rgba(40, 6, 36, 0.34); }
 .topbar__logo { width: 92px; height: 92px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 8px 20px rgba(40,6,36,0.4)); }
 .topnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.6rem; margin-top: 0.9rem; }
 .topnav__link {
@@ -122,6 +131,23 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.04; margin: 0;
 .topnav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .topnav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .topnav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.cart-nav {
+  position: absolute; right: 1.25rem; top: 1.85rem;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  min-height: 42px; padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(255,255,255,0.45); border-radius: 999px;
+  background: rgba(255,255,255,0.10); color: var(--on);
+  font-family: var(--font-display); font-weight: 800; cursor: pointer;
+  transition: transform 0.18s, background 0.18s, color 0.18s;
+}
+.cart-nav:hover { transform: translateY(-2px); background: var(--gold); color: var(--ink); }
+.cart-count {
+  min-width: 24px; height: 24px; display: grid; place-items: center;
+  border-radius: 999px; background: var(--gold); color: var(--ink);
+  font-size: 0.8rem; line-height: 1;
+}
+.cart-nav:hover .cart-count { background: var(--ink); color: var(--gold); }
 
 .hero__inner {
   width: min(100% - 2.5rem, 1320px); margin-inline: auto;
@@ -370,6 +396,84 @@ textarea.field { resize: vertical; min-height: 130px; }
 .footer__copy strong { color: var(--gold); }
 
 /* ============================================================
+   CART
+   ============================================================ */
+.cart-backdrop {
+  position: fixed; inset: 0; z-index: 420;
+  background: rgba(42, 8, 32, 0.52);
+  backdrop-filter: blur(4px);
+}
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 430;
+  width: min(100%, 430px); display: flex; flex-direction: column;
+  background: linear-gradient(165deg, #7a2b9d 0%, #98318f 34%, #c0397f 68%, #e0497a 100%);
+  color: var(--on); box-shadow: -24px 0 48px rgba(40, 6, 36, 0.36);
+  transform: translateX(105%); transition: transform 0.24s ease;
+}
+.cart-drawer.is-open { transform: translateX(0); }
+.cart-drawer__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.2rem 1.25rem; border-bottom: 1px solid var(--line);
+}
+.cart-drawer__eyebrow {
+  margin: 0 0 0.15rem; color: var(--gold); font-weight: 800;
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.cart-drawer__title { font-size: 1.8rem; color: var(--white); }
+.cart-close {
+  width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px; background: rgba(255,255,255,0.10); color: var(--gold);
+  font-size: 1.8rem; line-height: 1; cursor: pointer;
+}
+.cart-items {
+  display: grid; gap: 0.8rem; padding: 1rem 1.25rem;
+  overflow: auto; min-height: 0;
+}
+.cart-item {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.9rem;
+  padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius);
+  background: rgba(255,255,255,0.09);
+}
+.cart-item__name { margin: 0; font-size: 1.1rem; color: var(--white); }
+.cart-item__meta { margin: 0.25rem 0 0; color: var(--on-soft); font-size: 0.84rem; }
+.cart-item__side { display: grid; justify-items: end; gap: 0.5rem; }
+.cart-item__price { color: var(--gold); white-space: nowrap; }
+.cart-item__qty {
+  display: inline-flex; align-items: center; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.26); border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+}
+.cart-item__qty button {
+  width: 32px; height: 32px; border: 0; cursor: pointer;
+  background: transparent; color: var(--gold); font-size: 1.1rem;
+}
+.cart-item__qty span { min-width: 28px; text-align: center; font-weight: 800; }
+.cart-item__remove {
+  border: 0; background: transparent; color: var(--on-soft);
+  text-decoration: underline; cursor: pointer; font: inherit; font-size: 0.82rem;
+}
+.cart-empty {
+  display: grid; place-items: center; gap: 1rem; padding: 2.5rem 1.25rem;
+  text-align: center; color: var(--on-soft);
+}
+.cart-empty[hidden], .cart-summary[hidden], .cart-form[hidden], .cart-backdrop[hidden] { display: none; }
+.cart-summary {
+  margin: auto 1.25rem 0; padding: 1rem 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.cart-summary__row {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  color: var(--white); font-size: 1.05rem;
+}
+.cart-summary__row strong { color: var(--gold); font-size: 1.3rem; }
+.cart-summary__note { margin: 0.5rem 0 0; color: var(--on-soft); font-size: 0.86rem; }
+.cart-form { display: grid; gap: 0.75rem; padding: 1rem 1.25rem 1.25rem; }
+.cart-field { background: rgba(255,255,255,0.10); }
+.cart-checkout { width: 100%; }
+.cart-status { min-height: 1.2em; margin: 0; color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+body.cart-open { overflow: hidden; }
+
+/* ============================================================
    ANIMATIONS (reveal + gentle truck bob), gated behind reduced-motion
    ============================================================ */
 .reveal { opacity: 0; transform: translateY(28px); }
@@ -398,7 +502,7 @@ textarea.field { resize: vertical; min-height: 130px; }
 }
 
 /* lift real content above the motif layer */
-.hero .topbar, .hero__inner, .here-badge,
+.hero__inner, .here-badge,
 .specials__inner, .menu .wrap, .schedule .wrap, .about .wrap, .contact__grid, .footer__inner, .footer__truck {
   position: relative; z-index: 1;
 }
@@ -495,27 +599,37 @@ textarea.field { resize: vertical; min-height: 130px; }
 }
 
 @media (max-width: 640px) {
-  html { scroll-padding-top: 72px; }
+  :root { --topbar-h: 92px; }
+  html { scroll-padding-top: calc(var(--topbar-h) + 12px); }
   body { background-attachment: scroll; }
   .wrap { width: min(100% - 1.5rem, var(--maxw)); }
   .btn { min-height: 46px; justify-content: center; padding: 0.78rem 1.15rem; }
 
-  .topbar { min-height: 88px; padding: 0.8rem 1rem 0.4rem; }
-  .topbar__logo { width: 74px; height: 74px; }
+  .topbar { min-height: var(--topbar-h); padding: 0.7rem 1rem; }
+  .topbar__logo { width: 72px; height: 72px; }
   .topnav {
-    position: fixed; inset: 0 0 auto 0; z-index: 200;
-    flex-direction: column; gap: 0.1rem;
-    background: rgba(60, 16, 70, 0.98); backdrop-filter: blur(14px);
-    margin-top: 0;
-    padding: 5rem 1rem 1.25rem; transform: translateY(-110%); transition: transform 0.3s ease;
-    box-shadow: 0 18px 38px rgba(40, 6, 36, 0.42);
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 330;
+    display: grid; grid-template-columns: 1fr; gap: 0.12rem;
+    max-height: 0; overflow: hidden; opacity: 0; pointer-events: none;
+    margin-top: 0; padding: 0 1rem;
+    background: var(--bg-fade);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 38px rgba(40, 6, 36, 0.34);
+    transform: translateY(-10px); transition: max-height 0.28s ease, opacity 0.2s ease, transform 0.24s ease, padding 0.24s ease;
   }
-  .topnav.is-open { transform: translateY(0); }
-  .topnav__link { padding: 0.95rem 1rem; font-size: 1rem; text-align: center; }
+  .topnav.is-open { max-height: 330px; opacity: 1; pointer-events: auto; padding: 0.7rem 1rem 1rem; transform: translateY(0); }
+  .topnav__link { padding: 0.85rem 1rem; font-size: 1rem; text-align: center; }
+  .cart-nav {
+    right: 4.4rem; top: 1.45rem; min-height: 42px;
+    padding: 0.48rem 0.7rem;
+    background: rgba(255,255,255,0.10);
+  }
+  .cart-nav__label { display: none; }
   .topnav__toggle {
     display: flex; z-index: 250; top: 1rem; right: 1rem;
     min-width: 44px; min-height: 44px; align-items: center; justify-content: center;
-    border-radius: 999px; background: rgba(42, 8, 32, 0.28);
+    border-radius: 999px; background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.28);
   }
 
   .hero { padding-bottom: 2.25rem; }
@@ -587,6 +701,16 @@ textarea.field { resize: vertical; min-height: 130px; }
   .footer { padding-bottom: 2rem; }
   .footer__truck-img { width: min(76vw, 260px); }
   .footer__copy { width: min(100%, 32ch); margin-inline: auto; }
+
+  .cart-drawer { width: 100%; }
+  .cart-drawer__head { padding: 1rem; }
+  .cart-items { padding: 0.9rem 1rem; }
+  .cart-form { padding: 0.9rem 1rem 1rem; }
+  .cart-summary { margin-inline: 1rem; }
+  .cart-item { grid-template-columns: minmax(0, 1fr); }
+  .cart-item__side { justify-items: start; grid-template-columns: 1fr auto; align-items: center; width: 100%; }
+  .cart-item__price { grid-column: 1 / -1; }
+  .cart-item__remove { justify-self: end; }
 
   /* thin out motifs on phones: keep the big skull + papel, drop the crowders */
   .motif--taco, .motif--chili, .motif--maraca,

@@ -47,6 +47,10 @@
         <a href="#about" class="topnav__link">About</a>
         <a href="#contact" class="topnav__link">Contact</a>
       </nav>
+      <button class="cart-nav" id="cart-nav" type="button" aria-label="Open cart">
+        <span class="cart-nav__label">Cart</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
       <button class="topnav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="topnav">
         <span></span><span></span><span></span>
       </button>
@@ -113,8 +117,7 @@
       <div class="menu__grid" id="menu-grid" aria-live="polite"></div>
 
       <p class="menu__note">
-        Browse the full menu here — to order, visit the truck or call
-        <a href="tel:+15077063827">507.706.3827</a>.
+        Add your favorites to the cart. Square checkout will connect here once the POS API is ready.
       </p>
     </div>
   </section>
@@ -220,6 +223,41 @@
       <p class="footer__copy">© <span id="year">2026</span> La Tapatia Food Truck · Site by <strong>Midvora</strong> — Sample Two</p>
     </div>
   </footer>
+
+  <!-- ===================== CART ===================== -->
+  <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
+    <div class="cart-drawer__head">
+      <div>
+        <p class="cart-drawer__eyebrow">Online Order</p>
+        <h2 class="cart-drawer__title" id="cart-title">Your Cart</h2>
+      </div>
+      <button class="cart-close" id="cart-close" type="button" aria-label="Close cart">×</button>
+    </div>
+
+    <div class="cart-items" id="cart-items"></div>
+
+    <div class="cart-empty" id="cart-empty">
+      <p>Your cart is empty.</p>
+      <a href="#menu" class="btn btn--gold cart-empty__link">Start an Order</a>
+    </div>
+
+    <div class="cart-summary" id="cart-summary" hidden>
+      <div class="cart-summary__row">
+        <span>Subtotal</span>
+        <strong id="cart-subtotal">$0.00</strong>
+      </div>
+      <p class="cart-summary__note" id="cart-market-note" hidden>Market-price items will be confirmed by the truck.</p>
+    </div>
+
+    <form class="cart-form" id="cart-form">
+      <input class="field cart-field" type="text" name="name" placeholder="Name for pickup *" autocomplete="name" required />
+      <input class="field cart-field" type="tel" name="phone" placeholder="Phone number *" autocomplete="tel" required />
+      <textarea class="field cart-field" name="note" rows="3" placeholder="Pickup notes or special requests"></textarea>
+      <button class="btn btn--gold cart-checkout" type="submit">Send Order Request</button>
+      <p class="cart-status" id="cart-status" role="status" aria-live="polite"></p>
+    </form>
+  </aside>
 
   <!-- ===================== SCRIPTS ===================== -->
   <!-- Reuse the same data files as the main site (no duplication). -->

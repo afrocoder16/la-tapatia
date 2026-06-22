@@ -2,8 +2,8 @@
    main.js — Sample Two renderer.
    Structure mirrors the client reference template, reskinned in
    La Tapatia colors. Renders specials, categorized menu rows,
-   schedule grid, contact info, socials. Plus scroll reveal +
-   mobile nav + contact form (mailto fallback). No cart / canvas.
+   schedule grid, contact info, socials, cart, sticky nav,
+   scroll reveal, mobile nav, and contact form (mailto fallback).
 
    Reads (from js/config.js and js/menu-data.js):
      LT_CONFIG, LT_MENU, LT_MEATS, LT_CATEGORIES
@@ -38,6 +38,12 @@
   }
   function priceLabel(price) {
     return price == null ? "Market price" : "$" + Number(price).toFixed(2);
+  }
+  function money(n) {
+    return "$" + Number(n || 0).toFixed(2);
+  }
+  function getMenuItem(id) {
+    return MENU.find(function (item) { return item.id === id; }) || null;
   }
 
   /* <img> with graceful fallback to a labeled circle/placeholder. */
@@ -82,10 +88,13 @@
   }
 
   /* ---------------- Menu: category tabs + card grid ----------------
-     Card design mirrors sample one. Browse-only: the "Add" button links
-     to call/order (sample two has no cart). */
+     Card design mirrors sample one and feeds the local cart. */
   var DEFAULT_CATEGORY = "entrees";
   var ORDER_TEL = (CONFIG.callToOrderPhone && CONFIG.callToOrderPhone.tel) || "+15077063827";
+  var ORDER_EMAIL = (CONFIG.orderRequest && CONFIG.orderRequest.email) || "info@latapatiafoodtruck.com";
+  var ORDER_SUBJECT = (CONFIG.orderRequest && CONFIG.orderRequest.subject) || "New online order request - La Tapatia Food Truck";
+  var CART_KEY = "la_tapatia_sample_two_cart_v1";
+  var cart = loadCart();
 
   function meatOptionsHTML(item) {
     if (!item.meats) return "";
@@ -127,7 +136,7 @@
               "<span>1</span>" +
               '<button type="button" data-step="inc" aria-label="Increase quantity">+</button>' +
             "</div>" +
-            '<a class="card__add" href="tel:' + esc(ORDER_TEL) + '">Call to Order</a>' +
+            '<button class="card__add" type="button" data-add-cart="' + esc(item.id) + '">Add to Cart</button>' +
           "</div>" +
         "</div>" +
       "</article>";
@@ -159,18 +168,235 @@
     });
   }
 
-  /* Card qty steppers (visual only — no cart in this sample). */
+  function loadCart() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      return Array.isArray(parsed) ? parsed.filter(function (line) { return line && line.id && line.qty > 0; }) : [];
+    } catch (err) {
+      return [];
+    }
+  }
+  function saveCart() {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+  function lineKey(id, meat) {
+    return id + "::" + (meat || "");
+  }
+  function cartCount() {
+    return cart.reduce(function (sum, line) { return sum + Number(line.qty || 0); }, 0);
+  }
+  function cartSubtotal() {
+    return cart.reduce(function (sum, line) {
+      return line.price == null ? sum : sum + (Number(line.price) * Number(line.qty || 0));
+    }, 0);
+  }
+  function hasMarketPriceItem() {
+    return cart.some(function (line) { return line.price == null; });
+  }
+  function addToCart(item, qty, meat) {
+    var key = lineKey(item.id, meat);
+    var existing = cart.find(function (line) { return line.key === key; });
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      cart.push({
+        key: key,
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        meat: meat || "",
+        qty: qty,
+      });
+    }
+    saveCart();
+    renderCart();
+  }
+  function changeCartQty(key, delta) {
+    var line = cart.find(function (item) { return item.key === key; });
+    if (!line) return;
+    line.qty = Math.max(1, Number(line.qty || 1) + delta);
+    saveCart();
+    renderCart();
+  }
+  function removeCartLine(key) {
+    cart = cart.filter(function (line) { return line.key !== key; });
+    saveCart();
+    renderCart();
+  }
+
   function wireMenuQty() {
     var grid = $("#menu-grid");
     if (!grid) return;
     grid.addEventListener("click", function (e) {
       var step = e.target.closest("[data-step]");
-      if (!step) return;
-      var span = step.closest(".qty").querySelector("span");
-      var v = parseInt(span.textContent, 10) || 1;
-      v = step.dataset.step === "inc" ? v + 1 : Math.max(1, v - 1);
-      span.textContent = v;
+      if (step) {
+        var span = step.closest(".qty").querySelector("span");
+        var v = parseInt(span.textContent, 10) || 1;
+        v = step.dataset.step === "inc" ? v + 1 : Math.max(1, v - 1);
+        span.textContent = v;
+        return;
+      }
+
+      var add = e.target.closest("[data-add-cart]");
+      if (!add) return;
+      var card = add.closest(".card");
+      var item = getMenuItem(add.getAttribute("data-add-cart"));
+      if (!card || !item) return;
+      var qtyNode = card.querySelector(".qty span");
+      var meatNode = card.querySelector("[data-meat]");
+      var qty = Math.max(1, parseInt(qtyNode && qtyNode.textContent, 10) || 1);
+      var meat = meatNode ? meatNode.value : "";
+      addToCart(item, qty, meat);
+      if (qtyNode) qtyNode.textContent = "1";
+      add.textContent = "Added";
+      window.setTimeout(function () { add.textContent = "Add to Cart"; }, 900);
+      openCart();
     });
+  }
+
+  /* ---------------- Cart drawer + static order handoff ---------------- */
+  function renderCart() {
+    var itemsHost = $("#cart-items");
+    var empty = $("#cart-empty");
+    var summary = $("#cart-summary");
+    var subtotal = $("#cart-subtotal");
+    var marketNote = $("#cart-market-note");
+    var form = $("#cart-form");
+    var count = $("#cart-count");
+    if (count) count.textContent = cartCount();
+    if (!itemsHost || !empty || !summary || !form) return;
+
+    if (!cart.length) {
+      itemsHost.innerHTML = "";
+      empty.hidden = false;
+      summary.hidden = true;
+      form.hidden = true;
+      return;
+    }
+
+    empty.hidden = true;
+    summary.hidden = false;
+    form.hidden = false;
+    if (subtotal) subtotal.textContent = money(cartSubtotal());
+    if (marketNote) marketNote.hidden = !hasMarketPriceItem();
+    itemsHost.innerHTML = cart.map(function (line) {
+      var linePrice = line.price == null ? "Market price" : money(Number(line.price) * Number(line.qty || 0));
+      var unitPrice = line.price == null ? "Confirm price" : priceLabel(line.price) + " each";
+      var meat = line.meat ? '<p class="cart-item__meta">Meat: ' + esc(line.meat) + "</p>" : "";
+      return '' +
+        '<article class="cart-item" data-cart-key="' + esc(line.key) + '">' +
+          '<div class="cart-item__main">' +
+            '<h3 class="cart-item__name">' + esc(line.name) + "</h3>" +
+            meat +
+            '<p class="cart-item__meta">' + esc(unitPrice) + "</p>" +
+          "</div>" +
+          '<div class="cart-item__side">' +
+            '<strong class="cart-item__price">' + esc(linePrice) + "</strong>" +
+            '<div class="cart-item__qty">' +
+              '<button type="button" data-cart-step="-1" aria-label="Decrease ' + esc(line.name) + '">-</button>' +
+              '<span>' + esc(line.qty) + "</span>" +
+              '<button type="button" data-cart-step="1" aria-label="Increase ' + esc(line.name) + '">+</button>' +
+            "</div>" +
+            '<button class="cart-item__remove" type="button" data-cart-remove>Remove</button>' +
+          "</div>" +
+        "</article>";
+    }).join("");
+  }
+
+  function openCart() {
+    var drawer = $("#cart-drawer");
+    var backdrop = $("#cart-backdrop");
+    if (!drawer || !backdrop) return;
+    renderCart();
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    backdrop.hidden = false;
+    document.body.classList.add("cart-open");
+  }
+  function closeCart() {
+    var drawer = $("#cart-drawer");
+    var backdrop = $("#cart-backdrop");
+    if (!drawer || !backdrop) return;
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    backdrop.hidden = true;
+    document.body.classList.remove("cart-open");
+  }
+
+  function orderBody(data) {
+    var lines = cart.map(function (line) {
+      var price = line.price == null ? "Market price" : money(Number(line.price) * Number(line.qty || 0));
+      var meat = line.meat ? " | Meat: " + line.meat : "";
+      return "- " + line.qty + " x " + line.name + meat + " | " + price;
+    }).join("\n");
+    return [
+      "New online order request",
+      "",
+      "Name: " + data.name,
+      "Phone: " + data.phone,
+      data.note ? "Notes: " + data.note : "Notes: none",
+      "",
+      "Items:",
+      lines,
+      "",
+      "Subtotal: " + money(cartSubtotal()) + (hasMarketPriceItem() ? " (market-price items not included)" : ""),
+      "",
+      "Square checkout is not connected yet. Please confirm pickup time and payment with the customer.",
+    ].join("\n");
+  }
+
+  function initCart() {
+    var openButton = $("#cart-nav");
+    var closeButton = $("#cart-close");
+    var backdrop = $("#cart-backdrop");
+    var itemsHost = $("#cart-items");
+    var form = $("#cart-form");
+    var emptyLink = $(".cart-empty__link");
+    if (openButton) openButton.addEventListener("click", openCart);
+    if (closeButton) closeButton.addEventListener("click", closeCart);
+    if (backdrop) backdrop.addEventListener("click", closeCart);
+    if (emptyLink) emptyLink.addEventListener("click", closeCart);
+    if (itemsHost) {
+      itemsHost.addEventListener("click", function (e) {
+        var item = e.target.closest(".cart-item");
+        if (!item) return;
+        var key = item.getAttribute("data-cart-key");
+        var step = e.target.closest("[data-cart-step]");
+        if (step) {
+          changeCartQty(key, parseInt(step.getAttribute("data-cart-step"), 10) || 0);
+          return;
+        }
+        if (e.target.closest("[data-cart-remove]")) removeCartLine(key);
+      });
+    }
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var status = $("#cart-status");
+        if (!cart.length) {
+          if (status) status.textContent = "Add at least one item first.";
+          return;
+        }
+        var formData = new FormData(form);
+        var data = {
+          name: (formData.get("name") || "").toString().trim(),
+          phone: (formData.get("phone") || "").toString().trim(),
+          note: (formData.get("note") || "").toString().trim(),
+        };
+        if (!data.name || !data.phone) {
+          if (status) status.textContent = "Please add a pickup name and phone number.";
+          return;
+        }
+        window.location.href = "mailto:" + ORDER_EMAIL +
+          "?subject=" + encodeURIComponent(ORDER_SUBJECT) +
+          "&body=" + encodeURIComponent(orderBody(data));
+        if (status) status.textContent = "Opening your email app to send the order request.";
+      });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeCart();
+    });
+    renderCart();
   }
 
   /* ---------------- Location & Schedule ---------------- */
@@ -285,14 +511,32 @@
   function initNav() {
     var toggle = $("#nav-toggle");
     var nav = $("#topnav");
+    var topbar = $(".topbar");
     if (!toggle || !nav) return;
 
-    function close() { nav.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); }
+    function close() {
+      nav.classList.remove("is-open");
+      document.body.classList.remove("nav-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open menu");
+    }
     toggle.addEventListener("click", function () {
       var open = nav.classList.toggle("is-open");
+      document.body.classList.toggle("nav-open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     });
     nav.querySelectorAll(".topnav__link").forEach(function (a) { a.addEventListener("click", close); });
+    document.addEventListener("click", function (e) {
+      if (!nav.classList.contains("is-open")) return;
+      if (topbar && topbar.contains(e.target)) return;
+      close();
+    });
+    function updateScrolled() {
+      document.body.classList.toggle("is-scrolled", window.scrollY > 12);
+    }
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
 
     var ids = ["menu", "schedule", "about", "contact"];
     var sections = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
@@ -337,6 +581,7 @@
     renderContact();
     renderSocials();
     initNav();
+    initCart();
     observeReveal(document.querySelectorAll(".reveal"));
     var year = $("#year");
     if (year) year.textContent = new Date().getFullYear();
