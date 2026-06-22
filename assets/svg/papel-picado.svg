@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 110" preserveAspectRatio="none" role="img" aria-label="">
+  <!-- string -->
+  <path d="M0 8 Q300 22 600 8 T1200 8" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.7"/>
+
+  <!-- One reusable flag shape: rectangle top, scalloped bottom, cut-paper holes -->
+  <defs>
+    <g id="flag">
+      <path d="M0 6 H80 V60 L70 70 L60 60 L50 70 L40 60 L30 70 L20 60 L10 70 L0 60 Z"/>
+      <g fill="#ffffff">
+        <circle cx="40" cy="24" r="9"/>
+        <circle cx="40" cy="24" r="4" fill="none"/>
+        <circle cx="22" cy="42" r="4"/>
+        <circle cx="58" cy="42" r="4"/>
+        <circle cx="40" cy="46" r="4"/>
+        <path d="M40 14 v-3 M40 37 v3 M30 24 h-3 M50 24 h3" stroke="#ffffff" stroke-width="2"/>
+      </g>
+    </g>
+  </defs>
+
+  <!-- A row of flags in the truck's palette -->
+  <g transform="translate(20 6)">
+    <use href="#flag" fill="#7b4bc4"/>
+    <use href="#flag" x="100" fill="#f7901e"/>
+    <use href="#flag" x="200" fill="#1aa7a0"/>
+    <use href="#flag" x="300" fill="#ec1e79"/>
+    <use href="#flag" x="400" fill="#7b4bc4"/>
+    <use href="#flag" x="500" fill="#f0592b"/>
+    <use href="#flag" x="600" fill="#1aa7a0"/>
+    <use href="#flag" x="700" fill="#ec1e79"/>
+    <use href="#flag" x="800" fill="#f7901e"/>
+    <use href="#flag" x="900" fill="#7b4bc4"/>
+    <use href="#flag" x="1000" fill="#1aa7a0"/>
+    <use href="#flag" x="1100" fill="#ec1e79"/>
+  </g>
+</svg>

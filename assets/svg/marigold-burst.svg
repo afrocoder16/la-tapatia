@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 170" role="img" aria-label="Festive marigold burst">
+  <g transform="translate(48 84)">
+    <ellipse cx="0" cy="0" rx="18" ry="42" fill="#f9c823"/>
+    <ellipse cx="0" cy="0" rx="18" ry="42" fill="#f9c823" transform="rotate(36)"/>
+    <ellipse cx="0" cy="0" rx="18" ry="42" fill="#f9c823" transform="rotate(72)"/>
+    <ellipse cx="0" cy="0" rx="18" ry="42" fill="#f9c823" transform="rotate(108)"/>
+    <ellipse cx="0" cy="0" rx="18" ry="42" fill="#f9c823" transform="rotate(144)"/>
+    <circle cx="0" cy="0" r="18" fill="#f7901e"/>
+    <circle cx="-5" cy="-4" r="5" fill="#fff1bc" opacity=".85"/>
+  </g>
+  <g transform="translate(120 54)">
+    <ellipse cx="0" cy="0" rx="14" ry="30" fill="#ec1e79"/>
+    <ellipse cx="0" cy="0" rx="14" ry="30" fill="#ec1e79" transform="rotate(45)"/>
+    <ellipse cx="0" cy="0" rx="14" ry="30" fill="#ec1e79" transform="rotate(90)"/>
+    <ellipse cx="0" cy="0" rx="14" ry="30" fill="#ec1e79" transform="rotate(135)"/>
+    <circle cx="0" cy="0" r="14" fill="#7b4bc4"/>
+    <circle cx="0" cy="0" r="6" fill="#f9c823"/>
+  </g>
+  <g transform="translate(158 110)">
+    <ellipse cx="0" cy="0" rx="12" ry="24" fill="#f7901e"/>
+    <ellipse cx="0" cy="0" rx="12" ry="24" fill="#f7901e" transform="rotate(45)"/>
+    <ellipse cx="0" cy="0" rx="12" ry="24" fill="#f7901e" transform="rotate(90)"/>
+    <ellipse cx="0" cy="0" rx="12" ry="24" fill="#f7901e" transform="rotate(135)"/>
+    <circle cx="0" cy="0" r="10" fill="#ec1e79"/>
+  </g>
+  <path d="M54 92 C82 110 90 132 98 160" fill="none" stroke="#1aa7a0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M122 64 C136 88 150 102 176 114" fill="none" stroke="#1aa7a0" stroke-width="7" stroke-linecap="round"/>
+  <path d="M118 66 C130 92 134 118 130 154" fill="none" stroke="#0e7c8a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M82 132 C98 122 108 120 124 124 C108 142 96 150 78 154 Z" fill="#39b4a7"/>
+  <path d="M148 104 C166 96 182 98 196 112 C176 122 162 124 146 122 Z" fill="#39b4a7"/>
+  <path d="M122 126 C138 122 150 126 160 140 C144 146 132 146 118 140 Z" fill="#7ed8b1"/>
+  <circle cx="190" cy="38" r="8" fill="#f9c823"/>
+  <circle cx="202" cy="62" r="5" fill="#ec1e79"/>
+  <circle cx="178" cy="58" r="4" fill="#f7901e"/>
+</svg>

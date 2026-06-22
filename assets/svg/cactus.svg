@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" role="img" aria-label="Cactus">
+  <!-- pot -->
+  <path d="M28 96 h44 l-5 22 h-34 Z" fill="#f0592b"/>
+  <rect x="24" y="88" width="52" height="10" rx="3" fill="#ec1e79"/>
+  <!-- body -->
+  <rect x="42" y="36" width="16" height="58" rx="8" fill="#3fae5a"/>
+  <!-- arms -->
+  <path d="M42 60 h-10 a8 8 0 0 0 -8 8 v8 a6 6 0 0 0 12 0 v-4 h6Z" fill="#3fae5a"/>
+  <path d="M58 52 h10 a8 8 0 0 1 8 8 v12 a6 6 0 0 1 -12 0 v-8 h-6Z" fill="#3fae5a"/>
+  <!-- spines -->
+  <g stroke="#2e8748" stroke-width="2"><path d="M50 44 v44"/><path d="M46 50 h8 M46 62 h8 M46 74 h8"/></g>
+  <!-- flower -->
+  <g transform="translate(50 34)"><circle r="4" fill="#f9c823"/>
+    <g fill="#ec1e79"><circle cx="0" cy="-7" r="3.5"/><circle cx="6" cy="3" r="3.5"/><circle cx="-6" cy="3" r="3.5"/></g></g>
+</svg>

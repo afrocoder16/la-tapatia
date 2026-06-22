@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 130" role="img" aria-label="Sugar skull">
+  <!-- skull base -->
+  <path d="M60 6 C26 6 12 32 12 58 C12 76 22 86 30 90 L30 104 C30 112 38 118 46 116 C50 122 56 124 60 124 C64 124 70 122 74 116 C82 118 90 112 90 104 L90 90 C98 86 108 76 108 58 C108 32 94 6 60 6Z" fill="#1aa7a0"/>
+  <!-- forehead flower -->
+  <g transform="translate(60 28)">
+    <circle r="6" fill="#f9c823"/>
+    <g fill="#ec1e79"><circle cx="0" cy="-11" r="5"/><circle cx="10" cy="-3" r="5"/><circle cx="6" cy="9" r="5"/><circle cx="-6" cy="9" r="5"/><circle cx="-10" cy="-3" r="5"/></g>
+    <circle r="3" fill="#fff"/>
+  </g>
+  <!-- eyes -->
+  <g>
+    <circle cx="38" cy="58" r="15" fill="#7b4bc4"/>
+    <circle cx="82" cy="58" r="15" fill="#7b4bc4"/>
+    <g fill="#f9c823">
+      <circle cx="38" cy="42" r="4"/><circle cx="82" cy="42" r="4"/>
+      <path d="M38 76 l4 7 -4 4 -4 -4Z"/><path d="M82 76 l4 7 -4 4 -4 -4Z"/>
+    </g>
+    <g fill="none" stroke="#f0592b" stroke-width="3"><circle cx="38" cy="58" r="19"/><circle cx="82" cy="58" r="19"/></g>
+  </g>
+  <!-- nose -->
+  <path d="M60 70 l8 14 -8 4 -8 -4Z" fill="#ec1e79"/>
+  <!-- teeth / smile -->
+  <path d="M36 100 Q60 116 84 100" fill="none" stroke="#7b4bc4" stroke-width="4"/>
+  <g stroke="#7b4bc4" stroke-width="3"><path d="M44 102 v10"/><path d="M52 105 v9"/><path d="M60 106 v9"/><path d="M68 105 v9"/><path d="M76 102 v10"/></g>
+  <!-- cheek swirls -->
+  <g fill="#f7901e"><circle cx="22" cy="84" r="5"/><circle cx="98" cy="84" r="5"/></g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 110" role="img" aria-label="Chili pepper">
+  <!-- stem -->
+  <path d="M40 10 q-2 12 -6 18" fill="none" stroke="#3fae5a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M40 10 q8 -2 12 4" fill="none" stroke="#3fae5a" stroke-width="6" stroke-linecap="round"/>
+  <!-- body -->
+  <path d="M34 26 C50 30 58 48 52 72 C47 92 30 104 18 96 C10 90 14 82 22 84 C32 86 40 80 42 66 C44 52 36 40 28 36 C24 34 28 24 34 26Z" fill="#ec1e79"/>
+  <path d="M34 26 C50 30 58 48 52 72 C47 92 30 104 18 96" fill="none" stroke="#c2185b" stroke-width="2"/>
+  <!-- shine -->
+  <path d="M40 40 q8 12 4 30" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>

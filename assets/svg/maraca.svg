@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" role="img" aria-label="Maraca">
+  <!-- handle -->
+  <rect x="46" y="60" width="8" height="52" rx="4" fill="#7a3b12" transform="rotate(12 50 86)"/>
+  <!-- bulb -->
+  <circle cx="46" cy="44" r="36" fill="#f7901e"/>
+  <circle cx="46" cy="44" r="36" fill="none" stroke="#e07d12" stroke-width="2"/>
+  <!-- decorative bands -->
+  <path d="M16 36 Q46 24 76 36" fill="none" stroke="#ec1e79" stroke-width="5"/>
+  <path d="M14 52 Q46 66 78 52" fill="none" stroke="#1aa7a0" stroke-width="5"/>
+  <!-- dots & zigzag -->
+  <g fill="#7b4bc4"><circle cx="30" cy="30" r="3"/><circle cx="46" cy="26" r="3"/><circle cx="62" cy="30" r="3"/></g>
+  <path d="M22 58 l6 6 6 -6 6 6 6 -6 6 6 6 -6" fill="none" stroke="#f9c823" stroke-width="3"/>
+</svg>

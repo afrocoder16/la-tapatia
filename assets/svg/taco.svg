@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" role="img" aria-label="Taco">
+  <!-- shell -->
+  <path d="M8 78 A52 52 0 0 1 112 78 Z" fill="#f7901e"/>
+  <path d="M8 78 A52 52 0 0 1 112 78 Z" fill="none" stroke="#e07d12" stroke-width="2"/>
+  <!-- lettuce -->
+  <path d="M14 74 q10 -14 22 -4 q12 -14 24 -2 q12 -12 24 -2 q12 -10 22 4 Z" fill="#3fae5a"/>
+  <!-- meat -->
+  <g fill="#8a4416">
+    <ellipse cx="34" cy="72" rx="10" ry="6"/>
+    <ellipse cx="58" cy="74" rx="11" ry="6"/>
+    <ellipse cx="82" cy="72" rx="10" ry="6"/>
+  </g>
+  <!-- tomato / cheese bits -->
+  <g><circle cx="44" cy="70" r="4" fill="#ec1e79"/><circle cx="70" cy="71" r="4" fill="#ec1e79"/>
+     <rect x="50" y="66" width="6" height="3" rx="1" fill="#f9c823"/><rect x="76" y="67" width="6" height="3" rx="1" fill="#f9c823"/>
+     <rect x="30" y="67" width="6" height="3" rx="1" fill="#f9c823"/></g>
+  <!-- base/plate line -->
+  <path d="M8 78 H112" stroke="#e07d12" stroke-width="3" stroke-linecap="round"/>
+</svg>
