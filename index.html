@@ -23,7 +23,7 @@
 <body>
 
   <!-- ===================== SKIP LINK ===================== -->
-  <a class="skip-link" href="#menu">Skip to menu</a>
+  <a class="skip-link" href="#menu" data-i18n="skip.toMenu">Skip to menu</a>
 
   <!-- ===================== HERO (logo + centered nav + L-text / R-truck) ===================== -->
   <header class="hero" id="top">
@@ -40,18 +40,23 @@
       <a class="topbar__brand" href="#top" aria-label="La Tapatia Food Truck — home">
         <img src="assets/logo-new.png" alt="La Tapatia Food Truck logo" class="topbar__logo" width="500" height="500" />
       </a>
-      <nav class="topnav" id="topnav" aria-label="Primary">
-        <a href="#top" class="topnav__link is-active">Home</a>
-        <a href="#menu" class="topnav__link">Menu</a>
-        <a href="#schedule" class="topnav__link">Location &amp; Schedule</a>
-        <a href="#about" class="topnav__link">About</a>
-        <a href="#contact" class="topnav__link">Contact</a>
-      </nav>
-      <button class="cart-nav" id="cart-nav" type="button" aria-label="Open cart">
-        <span class="cart-nav__label">Cart</span>
-        <span class="cart-count" id="cart-count">0</span>
-      </button>
-      <button class="topnav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="topnav">
+      <div class="topbar__nav-row">
+        <nav class="topnav" id="topnav" aria-label="Primary">
+          <a href="#top" class="topnav__link is-active" data-i18n="nav.home">Home</a>
+          <a href="#menu" class="topnav__link" data-i18n="nav.menu">Menu</a>
+          <a href="#schedule" class="topnav__link" data-i18n="nav.schedule">Location &amp; Schedule</a>
+          <a href="#about" class="topnav__link" data-i18n="nav.about">About</a>
+          <a href="#contact" class="topnav__link" data-i18n="nav.contact">Contact</a>
+        </nav>
+        <button class="lang-toggle" id="lang-toggle" type="button" data-i18n-aria="lang.switchTo" aria-label="Cambiar a español">
+          <span class="lang-toggle__label" data-i18n="lang.label">ES</span>
+        </button>
+        <button class="cart-nav" id="cart-nav" type="button" data-i18n-aria="nav.openCart" aria-label="Open cart">
+          <span class="cart-nav__label" data-i18n="nav.cart">Cart</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+      </div>
+      <button class="topnav__toggle" id="nav-toggle" data-i18n-aria="nav.openMenu" aria-label="Open menu" aria-expanded="false" aria-controls="topnav">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -60,10 +65,10 @@
       <div class="hero__copy reveal">
         <h1 class="hero__title">just<br />tapatía</h1>
         <span class="hero__rule" aria-hidden="true"></span>
-        <p class="hero__lead">Auténtico Mexican street food — tacos, quesabirrias &amp; more, rolling through Marshall, MN.</p>
+        <p class="hero__lead" data-i18n="hero.lead">Auténtico Mexican street food — tacos, quesabirrias &amp; more, rolling through Marshall, MN.</p>
         <div class="hero__cta">
-          <a href="#menu" class="btn btn--gold">See the Menu</a>
-          <a href="#contact" class="btn btn--ghost">Book Catering</a>
+          <a href="#menu" class="btn btn--gold" data-i18n="hero.seeMenu">See the Menu</a>
+          <a href="#contact" class="btn btn--ghost" data-i18n="hero.bookCatering">Book Catering</a>
         </div>
       </div>
       <div class="hero__truck reveal">
@@ -72,12 +77,12 @@
     </div>
 
     <!-- floating "We Are Here" badge, like the reference corner badge -->
-    <a class="here-badge" href="#schedule" aria-label="See where we are today">
+    <a class="here-badge" href="#schedule" data-i18n-aria="hero.here.aria" aria-label="See where we are today">
       <span class="here-badge__ring">
         <span class="here-badge__stars">★ ★</span>
-        <span>WE ARE</span>
-        <strong>HERE</strong>
-        <span>TODAY</span>
+        <span data-i18n="hero.here.we">WE ARE</span>
+        <strong data-i18n="hero.here.now">HERE</strong>
+        <span data-i18n="hero.here.today">TODAY</span>
       </span>
     </a>
   </header>
@@ -90,9 +95,9 @@
     </div>
     <div class="wrap specials__inner">
       <div class="specials__head reveal">
-        <h2 class="specials__title" id="specials-head">our<br />daily<br />specials</h2>
+        <h2 class="specials__title" id="specials-head" data-i18n-html="specials.title">our<br />daily<br />specials</h2>
         <span class="dash" aria-hidden="true"></span>
-        <p class="specials__sub">The dishes everyone comes back for — made fresh, served fast.</p>
+        <p class="specials__sub" data-i18n="specials.sub">The dishes everyone comes back for — made fresh, served fast.</p>
       </div>
       <div class="specials__grid" id="specials-grid">
         <!-- rendered by main.js -->
@@ -108,10 +113,10 @@
     </div>
     <div class="wrap">
       <div class="menu__head reveal">
-        <p class="menu__eyebrow">¡Buen Provecho!</p>
-        <h2 class="menu__title" id="menu-head">Our Menu</h2>
+        <p class="menu__eyebrow" data-i18n="menu.eyebrow">¡Buen Provecho!</p>
+        <h2 class="menu__title" id="menu-head" data-i18n="menu.title">Our Menu</h2>
         <span class="menu__rule" aria-hidden="true"></span>
-        <p class="menu__sub">Everything made fresh to order — build your plate, pick your meat.</p>
+        <p class="menu__sub" data-i18n="menu.sub">Everything made fresh to order — build your plate, pick your meat.</p>
       </div>
 
       <!-- Category filter tabs (rendered by main.js) -->
@@ -120,7 +125,7 @@
       <!-- Menu card grid (rendered by main.js from js/menu-data.js) -->
       <div class="menu__grid" id="menu-grid" aria-live="polite"></div>
 
-      <p class="menu__note">
+      <p class="menu__note" data-i18n="menu.note">
         Add your favorites to the cart. Square checkout will connect here once the POS API is ready.
       </p>
     </div>
@@ -135,10 +140,10 @@
     <div class="wrap">
       <div class="schedule__top">
         <div class="schedule__intro reveal">
-          <h2 class="schedule__title" id="schedule-head">location<br />&amp;schedule</h2>
+          <h2 class="schedule__title" id="schedule-head" data-i18n-html="schedule.title">location<br />&amp;schedule</h2>
           <span class="dash" aria-hidden="true"></span>
           <p class="schedule__sub" id="schedule-live-text">Follow us for day-of updates — here's where to catch the truck.</p>
-          <a class="btn btn--gold schedule__dir" id="schedule-dir" href="#" target="_blank" rel="noopener">Get Directions</a>
+          <a class="btn btn--gold schedule__dir" id="schedule-dir" href="#" target="_blank" rel="noopener" data-i18n="schedule.directions">Get Directions</a>
         </div>
         <div class="schedule__map reveal">
           <iframe
@@ -162,16 +167,16 @@
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tick" aria-hidden="true"></span>
-        <h2 class="section-title" id="about-head">about</h2>
-        <p class="section-sub">A taste of Jalisco, made for Marshall — real recipes, fresh every day.</p>
+        <h2 class="section-title" id="about-head" data-i18n="about.title">about</h2>
+        <p class="section-sub" data-i18n="about.sub">A taste of Jalisco, made for Marshall — real recipes, fresh every day.</p>
       </div>
       <div class="about__grid">
         <div class="about__card reveal">
-          <p class="about__hi">¡Hola! We're La Tapatia</p>
-          <h3 class="about__h">Family recipes, slow-cooked &amp; made to order</h3>
+          <p class="about__hi" data-i18n="about.hi">¡Hola! We're La Tapatia</p>
+          <h3 class="about__h" data-i18n="about.h">Family recipes, slow-cooked &amp; made to order</h3>
           <span class="dash dash--gold" aria-hidden="true"></span>
-          <p>La Tapatia started with a simple idea: bring real Mexican street food — the kind made with family recipes and slow-cooked care — straight to the neighborhood.</p>
-          <p>Every taco, quesabirria and burrito is made to order with fresh ingredients and your choice of eight house-marinated meats. Catch us around town, or book the truck for your next fiesta.</p>
+          <p data-i18n="about.p1">La Tapatia started with a simple idea: bring real Mexican street food — the kind made with family recipes and slow-cooked care — straight to the neighborhood.</p>
+          <p data-i18n="about.p2">Every taco, quesabirria and burrito is made to order with fresh ingredients and your choice of eight house-marinated meats. Catch us around town, or book the truck for your next fiesta.</p>
         </div>
         <div class="about__media reveal">
           <img src="assets/photos/truck2-Photoroom.png" alt="La Tapatia food truck side view" class="about__img" />
@@ -187,9 +192,9 @@
     </div>
     <div class="wrap contact__grid">
       <div class="contact__info reveal">
-        <h2 class="section-title section-title--left" id="contact-head">Contact</h2>
+        <h2 class="section-title section-title--left" id="contact-head" data-i18n="contact.title">Contact</h2>
         <span class="dash dash--gold" aria-hidden="true"></span>
-        <p class="contact__lead">Questions, catering, or a craving? Call, text, or send us a message.</p>
+        <p class="contact__lead" data-i18n="contact.lead">Questions, catering, or a craving? Call, text, or send us a message.</p>
         <div class="contact__rows" id="contact-rows">
           <!-- rendered by main.js: phones + email -->
         </div>
@@ -200,11 +205,11 @@
       </div>
 
       <form class="contact__form reveal" id="contact-form" novalidate>
-        <input class="field" type="text" name="name" placeholder="Full Name *" autocomplete="name" required />
-        <input class="field" type="email" name="email" placeholder="Email Address *" autocomplete="email" required />
-        <input class="field" type="text" name="subject" placeholder="Subject (catering, event date…)" />
-        <textarea class="field" name="message" rows="5" placeholder="Your Message"></textarea>
-        <button type="submit" class="btn btn--gold contact__submit">Send Message</button>
+        <input class="field" type="text" name="name" placeholder="Full Name *" data-i18n-placeholder="form.name" autocomplete="name" required />
+        <input class="field" type="email" name="email" placeholder="Email Address *" data-i18n-placeholder="form.email" autocomplete="email" required />
+        <input class="field" type="text" name="subject" placeholder="Subject (catering, event date…)" data-i18n-placeholder="form.subject" />
+        <textarea class="field" name="message" rows="5" placeholder="Your Message" data-i18n-placeholder="form.message"></textarea>
+        <button type="submit" class="btn btn--gold contact__submit" data-i18n="form.send">Send Message</button>
         <p class="contact__note" id="contact-note" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -221,10 +226,10 @@
       <img src="assets/photos/truck-Photoroom.png" alt="" aria-hidden="true" class="footer__truck-img" />
     </div>
     <div class="wrap footer__inner">
-      <h2 class="footer__tag">¡Buen Provecho!</h2>
-      <p class="footer__sub">Auténtico Mexican street food &amp; catering — Marshall, MN.</p>
+      <h2 class="footer__tag" data-i18n="footer.tag">¡Buen Provecho!</h2>
+      <p class="footer__sub" data-i18n="footer.sub">Auténtico Mexican street food &amp; catering — Marshall, MN.</p>
       <div class="footer__socials" id="footer-socials" aria-label="Follow us"><!-- rendered by main.js --></div>
-      <p class="footer__copy">© <span id="year">2026</span> La Tapatia Food Truck · Site by <strong>Midvora</strong> — Sample Two</p>
+      <p class="footer__copy">© <span id="year">2026</span> <span data-i18n="footer.copy">La Tapatia Food Truck · Site by</span> <strong>Midvora</strong> — Sample Two</p>
     </div>
   </footer>
 
@@ -233,38 +238,46 @@
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
     <div class="cart-drawer__head">
       <div>
-        <p class="cart-drawer__eyebrow">Online Order</p>
-        <h2 class="cart-drawer__title" id="cart-title">Your Cart</h2>
+        <p class="cart-drawer__eyebrow" data-i18n="cart.eyebrow">Online Order</p>
+        <h2 class="cart-drawer__title" id="cart-title" data-i18n="cart.title">Your Cart</h2>
       </div>
-      <button class="cart-close" id="cart-close" type="button" aria-label="Close cart">×</button>
+      <button class="cart-close" id="cart-close" type="button" data-i18n-aria="cart.close" aria-label="Close cart">×</button>
     </div>
 
     <div class="cart-items" id="cart-items"></div>
 
     <div class="cart-empty" id="cart-empty">
-      <p>Your cart is empty.</p>
-      <a href="#menu" class="btn btn--gold cart-empty__link">Start an Order</a>
+      <p data-i18n="cart.empty">Your cart is empty.</p>
+      <a href="#menu" class="btn btn--gold cart-empty__link" data-i18n="cart.startOrder">Start an Order</a>
+    </div>
+
+    <div class="cart-thanks" id="cart-thanks" hidden>
+      <span class="cart-thanks__mark" aria-hidden="true">✓</span>
+      <h3 class="cart-thanks__title" data-i18n="cart.thanksTitle">¡Gracias!</h3>
+      <p class="cart-thanks__text" data-i18n="cart.thanks">Your payment went through. The truck has your order.</p>
+      <a href="#menu" class="btn btn--gold cart-thanks__link" data-i18n="cart.orderMore">Order More</a>
     </div>
 
     <div class="cart-summary" id="cart-summary" hidden>
       <div class="cart-summary__row">
-        <span>Subtotal</span>
+        <span data-i18n="cart.subtotal">Subtotal</span>
         <strong id="cart-subtotal">$0.00</strong>
       </div>
-      <p class="cart-summary__note" id="cart-market-note" hidden>Market-price items will be confirmed by the truck.</p>
+      <p class="cart-summary__note" id="cart-market-note" data-i18n="cart.marketNote" hidden>Market-price items will be confirmed by the truck.</p>
     </div>
 
     <form class="cart-form" id="cart-form">
-      <input class="field cart-field" type="text" name="name" placeholder="Name for pickup *" autocomplete="name" required />
-      <input class="field cart-field" type="tel" name="phone" placeholder="Phone number *" autocomplete="tel" required />
-      <textarea class="field cart-field" name="note" rows="3" placeholder="Pickup notes or special requests"></textarea>
-      <button class="btn btn--gold cart-checkout" type="submit">Send Order Request</button>
+      <input class="field cart-field" type="text" name="name" placeholder="Name for pickup *" data-i18n-placeholder="cart.name" autocomplete="name" required />
+      <input class="field cart-field" type="tel" name="phone" placeholder="Phone number *" data-i18n-placeholder="cart.phone" autocomplete="tel" required />
+      <textarea class="field cart-field" name="note" rows="3" placeholder="Pickup notes or special requests" data-i18n-placeholder="cart.note"></textarea>
+      <button class="btn btn--gold cart-checkout" type="submit" data-i18n="cart.send">Checkout &amp; Pay</button>
       <p class="cart-status" id="cart-status" role="status" aria-live="polite"></p>
     </form>
   </aside>
 
   <!-- ===================== SCRIPTS ===================== -->
   <!-- Reuse the same data files as the main site (no duplication). -->
+  <script src="js/i18n.js"></script>
   <script src="js/config.js"></script>
   <script src="js/menu-data.js"></script>
   <script src="js/main.js"></script>

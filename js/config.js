@@ -28,6 +28,18 @@ window.LT_CONFIG = {
     subject: "New online order request - La Tapatia Food Truck",
   },
 
+  /* Square checkout backend.
+     - apiBaseUrl: where the checkout server (server/index.js) is reachable.
+       Leave empty ("") to disable online payment and use the email
+       (mailto) order handoff instead.
+       Local testing: "http://localhost:4242"
+       Production: your deployed server URL, e.g. "https://checkout.latapatiafoodtruck.com"
+     When enabled, the cart's "Send Order" button starts a Square-hosted
+     checkout instead of opening the visitor's email app. */
+  checkout: {
+    apiBaseUrl: "http://localhost:4242",
+  },
+
   liveLocation: {
     demo: {
       enabled: true,

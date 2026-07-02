@@ -1,0 +1,22 @@
+{
+  "name": "la-tapatia-checkout-server",
+  "version": "1.0.0",
+  "description": "Square checkout backend for the La Tapatia Food Truck cart (Sample Two).",
+  "type": "module",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "location": "node scripts/get-location.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "square": "^40.0.0"
+  }
+}

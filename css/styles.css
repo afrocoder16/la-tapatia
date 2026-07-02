@@ -120,7 +120,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.04; margin: 0;
 }
 body.is-scrolled .topbar { box-shadow: none; }
 .topbar__logo { width: 92px; height: 92px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 8px 20px rgba(40,6,36,0.4)); }
-.topnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.6rem; margin-top: 0.9rem; }
+.topbar__nav-row {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  width: 100%; margin-top: 0.9rem;
+}
+.topnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.6rem; }
 .topnav__link {
   color: var(--on); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.04em;
   text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 4px;
@@ -134,21 +138,42 @@ body.is-scrolled .topbar { box-shadow: none; }
 .topnav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 .cart-nav {
-  position: absolute; right: 1.25rem; top: 1.85rem;
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  min-height: 42px; padding: 0.55rem 0.8rem;
-  border: 1px solid rgba(255,255,255,0.45); border-radius: 999px;
-  background: rgba(255,255,255,0.10); color: var(--on);
-  font-family: var(--font-display); font-weight: 800; cursor: pointer;
-  transition: transform 0.18s, background 0.18s, color 0.18s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  min-height: 44px; padding: 0.6rem 1rem;
+  border: 2px solid var(--gold); border-radius: 999px;
+  background: var(--gold); color: var(--ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 1rem; cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
 }
-.cart-nav:hover { transform: translateY(-2px); background: var(--gold); color: var(--ink); }
+.cart-nav:hover { transform: translateY(-2px); background: var(--ink); color: var(--gold); box-shadow: var(--shadow-md); }
 .cart-count {
   min-width: 24px; height: 24px; display: grid; place-items: center;
-  border-radius: 999px; background: var(--gold); color: var(--ink);
-  font-size: 0.8rem; line-height: 1;
+  border-radius: 999px; background: var(--ink); color: var(--gold);
+  font-size: 0.8rem; font-weight: 800; line-height: 1;
 }
-.cart-nav:hover .cart-count { background: var(--ink); color: var(--gold); }
+.cart-nav:hover .cart-count { background: var(--gold); color: var(--ink); }
+
+/* Language switch — outlined pill next to the cart button. The label
+   shows the language you'll switch TO (EN while in Spanish, ES while in
+   English). A small globe glyph reinforces the meaning. */
+.lang-toggle {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  min-height: 44px; padding: 0.55rem 0.9rem;
+  border: 2px solid rgba(255,255,255,0.5); border-radius: 999px;
+  background: rgba(255,255,255,0.08); color: var(--on);
+  font-family: var(--font-display); font-weight: 800; font-size: 0.9rem;
+  letter-spacing: 0.06em; cursor: pointer;
+  transition: transform 0.18s, background 0.18s, color 0.18s, border-color 0.18s;
+}
+.lang-toggle::before {
+  content: ""; width: 16px; height: 16px; flex: none;
+  background: currentColor;
+  /* globe icon (mask so it inherits currentColor) */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.6a15.7 15.7 0 0 0-1.3-3.4A8 8 0 0 1 18.9 8ZM12 4c.8 1 1.5 2.4 1.9 4h-3.8c.4-1.6 1.1-3 1.9-4ZM4.3 14a8 8 0 0 1 0-4h3a17.6 17.6 0 0 0 0 4Zm.8 2h2.6a15.7 15.7 0 0 0 1.3 3.4A8 8 0 0 1 5.1 16Zm2.6-8H5.1a8 8 0 0 1 3.9-3.4A15.7 15.7 0 0 0 7.7 8ZM12 20c-.8-1-1.5-2.4-1.9-4h3.8c-.4 1.6-1.1 3-1.9 4Zm2.3-6H9.7a15.6 15.6 0 0 1 0-4h4.6a15.6 15.6 0 0 1 0 4Zm.7 5.4a15.7 15.7 0 0 0 1.3-3.4h2.6a8 8 0 0 1-3.9 3.4Zm1.7-5.4a17.6 17.6 0 0 0 0-4h3a8 8 0 0 1 0 4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.6a15.7 15.7 0 0 0-1.3-3.4A8 8 0 0 1 18.9 8ZM12 4c.8 1 1.5 2.4 1.9 4h-3.8c.4-1.6 1.1-3 1.9-4ZM4.3 14a8 8 0 0 1 0-4h3a17.6 17.6 0 0 0 0 4Zm.8 2h2.6a15.7 15.7 0 0 0 1.3 3.4A8 8 0 0 1 5.1 16Zm2.6-8H5.1a8 8 0 0 1 3.9-3.4A15.7 15.7 0 0 0 7.7 8ZM12 20c-.8-1-1.5-2.4-1.9-4h3.8c-.4 1.6-1.1 3-1.9 4Zm2.3-6H9.7a15.6 15.6 0 0 1 0-4h4.6a15.6 15.6 0 0 1 0 4Zm.7 5.4a15.7 15.7 0 0 0 1.3-3.4h2.6a8 8 0 0 1-3.9 3.4Zm1.7-5.4a17.6 17.6 0 0 0 0-4h3a8 8 0 0 1 0 4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.lang-toggle:hover { transform: translateY(-2px); background: var(--gold); color: var(--ink); border-color: var(--gold); }
 
 .hero__inner {
   width: min(100% - 2.5rem, 1320px); margin: clamp(2.2rem, 5vh, 4rem) auto 0;
@@ -166,10 +191,9 @@ body.is-scrolled .topbar { box-shadow: none; }
 .hero__truck { position: relative; justify-self: end; width: min(100%, 780px); }
 .hero__truck-img { width: 100%; filter: drop-shadow(0 42px 58px rgba(40,6,36,0.50)); }
 
-/* "We Are Here" floating badge, placed low between the copy and truck. */
+/* "We Are Here" floating badge, placed low near the truck's rear. */
 .here-badge {
-  position: absolute; left: clamp(20rem, 44vw, 55rem); bottom: clamp(5rem, 7vw, 9.5rem);
-  transform: translateX(-50%);
+  position: absolute; right: clamp(1rem, 6vw, 4.5rem); bottom: clamp(5rem, 7vw, 9.5rem);
   width: 112px; height: 112px; display: grid; place-items: center; z-index: 20;
 }
 .here-badge__ring {
@@ -460,7 +484,22 @@ textarea.field { resize: vertical; min-height: 130px; }
   display: grid; place-items: center; gap: 1rem; padding: 2.5rem 1.25rem;
   text-align: center; color: var(--on-soft);
 }
-.cart-empty[hidden], .cart-summary[hidden], .cart-form[hidden], .cart-backdrop[hidden] { display: none; }
+.cart-empty[hidden], .cart-summary[hidden], .cart-form[hidden], .cart-backdrop[hidden],
+.cart-thanks[hidden] { display: none; }
+
+/* Post-payment thank-you panel (shown on the Square success return). */
+.cart-thanks {
+  display: grid; place-items: center; gap: 0.9rem; padding: 2.6rem 1.5rem;
+  text-align: center; color: var(--on);
+}
+.cart-thanks__mark {
+  width: 66px; height: 66px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--gold); color: var(--ink);
+  font-size: 2rem; font-weight: 800; box-shadow: var(--shadow-md);
+}
+.cart-thanks__title { font-size: 1.8rem; color: var(--gold); }
+.cart-thanks__text { margin: 0; color: var(--on-soft); max-width: 34ch; }
+.cart-thanks__link { margin-top: 0.4rem; }
 .cart-summary {
   margin: auto 1.25rem 0; padding: 1rem 0;
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
@@ -505,7 +544,7 @@ body.cart-open { overflow: hidden; }
 }
 
 /* lift real content above the motif layer */
-.hero__inner, .here-badge,
+.hero__inner,
 .specials__inner, .menu .wrap, .schedule .wrap, .about .wrap, .contact__grid, .footer__inner, .footer__truck {
   position: relative; z-index: 1;
 }
@@ -544,7 +583,7 @@ body.cart-open { overflow: hidden; }
   height: clamp(48px, 4.4vw, 64px);
   opacity: 0.74;
 }
-.hero .motif--guitar { left: 2%; bottom: 6%; }
+.hero .motif--guitar { left: clamp(16rem, 33vw, 40rem); bottom: 4%; }
 .hero .motif--taco   { right: 6%; top: 30%; }
 .hero .motif--marigold { right: -50px; top: -40px; }
 
@@ -618,8 +657,10 @@ body.cart-open { overflow: hidden; }
 
   .topbar { min-height: auto; padding: 0 1rem; }
   .topbar__logo { width: 72px; height: 72px; }
+  /* Full-width dropdown anchored under the topbar. Positioned in the
+     viewport (fixed) so it doesn't depend on the compact nav-row width. */
   .topnav {
-    position: absolute; top: 100%; left: 0; right: 0; z-index: 330;
+    position: fixed; top: 88px; left: 0; right: 0; width: 100%; z-index: 330;
     display: grid; grid-template-columns: 1fr; gap: 0.12rem;
     max-height: 0; overflow: hidden; opacity: 0; pointer-events: none;
     margin-top: 0; padding: 0 1rem;
@@ -630,12 +671,15 @@ body.cart-open { overflow: hidden; }
   }
   .topnav.is-open { max-height: 330px; opacity: 1; pointer-events: auto; padding: 0.7rem 1rem 1rem; transform: translateY(0); }
   .topnav__link { padding: 0.85rem 1rem; font-size: 1rem; text-align: center; }
-  .cart-nav {
-    right: 4.4rem; top: 1.45rem; min-height: 42px;
-    padding: 0.48rem 0.7rem;
-    background: rgba(255,255,255,0.10);
+  /* Compact controls (language + cart) sit at top-left, hamburger top-right. */
+  .topbar__nav-row {
+    justify-content: flex-start; margin-top: 0; gap: 0.5rem;
+    position: absolute; left: 1rem; top: 1rem; width: auto;
   }
+  .cart-nav { min-height: 42px; padding: 0.5rem 0.7rem; }
   .cart-nav__label { display: none; }
+  .lang-toggle { min-height: 42px; padding: 0.5rem 0.7rem; font-size: 0.85rem; }
+  .lang-toggle::before { width: 15px; height: 15px; }
   .topnav__toggle {
     display: flex; z-index: 250; top: 1rem; right: 1rem;
     min-width: 44px; min-height: 44px; align-items: center; justify-content: center;
